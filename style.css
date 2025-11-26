@@ -1,0 +1,56 @@
+/* style.css */
+
+body {
+    font-family: serif;
+    line-height: 1.5;
+}
+
+/* === THE TABLE === */
+table.speech-table {
+    width: 100%;        /* Span the full width of the screen */
+    border-collapse: collapse;
+    margin-bottom: 1em; /* Space between different speakers */
+    border: none;       /* Ensure no ugly grid lines appear */
+}
+
+/* === LEFT COLUMN: SPEAKER NAME === */
+td.td-name {
+    width: 25%;         /* Keeps the name column size fixed */
+    padding-right: 1em; /* Space between Name and Text */
+    
+    text-align: right;  /* Right-align looks cleaner against the text */
+    font-family: sans-serif;
+    font-weight: bold;
+    color: #444444;
+    font-size: 0.9em;
+    
+    /* "vertical-align: top" is handled in HTML for safety, 
+       but we keep it here too */
+    vertical-align: top;
+    
+    /* Clean up borders just in case */
+    border: none;
+}
+
+/* === RIGHT COLUMN: DIALOGUE === */
+td.td-text {
+    width: 75%;
+    text-align: left;
+    vertical-align: top;
+    border: none;
+}
+
+/* Paragraphs inside the table cell */
+td.td-text p {
+    margin: 0;
+    margin-bottom: 0.5em; /* Space between lines within one speech */
+    text-indent: 0;
+}
+
+/* === NARRATION / IMAGES === */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1em auto;
+}
