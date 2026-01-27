@@ -28,12 +28,12 @@ def process_arknights_kindle_toc(input_file, output_md_file):
         r'^(?:#{1,6}\s+)?(?:\d{1,2}-\d{1,2}[A-Z]?|[A-Z0-9]{1,6}(?:-[A-Z0-9]{1,6})*-\d{1,3}[A-Z]?)\s+\S'
     )
 
-def flush_buffer():
-    nonlocal current_speaker, dialogue_buffer
-    if current_speaker:
-        # === KINDLE-SAFE TABLE STRUCTURE ===
-        output_lines.append('\n<table class="speech-table">\n')
-        output_lines.append('  <tr>\n')
+    def flush_buffer():
+        nonlocal current_speaker, dialogue_buffer
+        if current_speaker:
+            # === KINDLE-SAFE TABLE STRUCTURE ===
+            output_lines.append('\n<table class="speech-table">\n')
+            output_lines.append('  <tr>\n')
 
         # Col 1: Name (No wrapping on Kindle)
         output_lines.append(f'    <td class="td-name" valign="top">{current_speaker}</td>\n')
