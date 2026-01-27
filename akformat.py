@@ -23,27 +23,42 @@ def process_arknights_kindle_toc(input_file, output_md_file):
     # Regex 1: Dialogue ("Name: Content")
     dialogue_pattern = re.compile(r'^([^:：\r\n]{1,40})[：:](.*)')
 
-    # Regex 2: Chapter Titles (e.g., "11-1 Title")
-    chapter_pattern = re.compile(r'^\d+-\d+\s+')
+    # # Regex 2: Chapter Titles (e.g., "11-1 Title")
+    # chapter_pattern = re.compile(r'^\d+-\d+\s+')
 
-    def flush_buffer():
-        nonlocal current_speaker, dialogue_buffer
-        if current_speaker:
-            # === KINDLE-SAFE TABLE STRUCTURE ===
-            output_lines.append('\n<table class="speech-table">\n')
-            output_lines.append('  <tr>\n')
-            
-            # Col 1: Name (No wrapping on Kindle)
-            output_lines.append(f'    <td class="td-name" valign="top">{current_speaker}</td>\n')
-            
-            # Col 2: Text
-            output_lines.append('    <td class="td-text" valign="top">\n')
-            for text in dialogue_buffer:
-                output_lines.append(f'      <p>{text}</p>\n')
+    # Matches:
+    #   11-1 标题
+    #   FC-1 标题
+    #   FC-ST-1 标题
+    #   LE-EX-8 标题
+    #   S4-1 标题
+    # and avoids matching asset lines like 34_g4_swamp_n (no hyphen-number)
+    chapter_pattern = re.compile(
+        r'^(?:'
+        r'\d{1,2}-\d{1,2}[A-Z]?'                           # 11-1, 6-18, maybe 6-1A
+        r'|'
+        r'[A-Z0-9]{1,6}(?:-[A-Z0-9]{1,6})*-\d{1,3}[A-Z]?'  # FC-ST-1, LE-EX-8, S4-1, H7-4
+    r')\s+\S'                                          # require a title after the id
+    )
+
+def flush_buffer():
+    nonlocal current_speaker, dialogue_buffer
+    if current_speaker:
+        # === KINDLE-SAFE TABLE STRUCTURE ===
+        output_lines.append('\n<table class="speech-table">\n')
+        output_lines.append('  <tr>\n')
+
+        # Col 1: Name (No wrapping on Kindle)
+        output_lines.append(f'    <td class="td-name" valign="top">{current_speaker}</td>\n')
+
+        # Col 2: Text
+        output_lines.append('    <td class="td-text" valign="top">\n')
+        for text in dialogue_buffer:
+            output_lines.append(f'      <p>{text}</p>\n')
             output_lines.append('    </td>\n')
             output_lines.append('  </tr>\n')
             output_lines.append('</table>\n')
-            
+
             current_speaker = None
             dialogue_buffer = []
 
