@@ -24,21 +24,8 @@ def process_arknights_kindle_toc(input_file, output_md_file):
     dialogue_pattern = re.compile(r'^([^:：\r\n]{1,40})[：:](.*)')
 
     # # Regex 2: Chapter Titles (e.g., "11-1 Title")
-    # chapter_pattern = re.compile(r'^\d+-\d+\s+')
-
-    # Matches:
-    #   11-1 标题
-    #   FC-1 标题
-    #   FC-ST-1 标题
-    #   LE-EX-8 标题
-    #   S4-1 标题
-    # and avoids matching asset lines like 34_g4_swamp_n (no hyphen-number)
     chapter_pattern = re.compile(
-        r'^(?:'
-        r'\d{1,2}-\d{1,2}[A-Z]?'                           # 11-1, 6-18, maybe 6-1A
-        r'|'
-        r'[A-Z0-9]{1,6}(?:-[A-Z0-9]{1,6})*-\d{1,3}[A-Z]?'  # FC-ST-1, LE-EX-8, S4-1, H7-4
-    r')\s+\S'                                          # require a title after the id
+        r'^(?:#{1,6}\s+)?(?:\d{1,2}-\d{1,2}[A-Z]?|[A-Z0-9]{1,6}(?:-[A-Z0-9]{1,6})*-\d{1,3}[A-Z]?)\s+\S'
     )
 
 def flush_buffer():
