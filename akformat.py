@@ -97,4 +97,4 @@ def process_arknights_kindle_toc(input_file, output_md_file):
 try:
     process_arknights_kindle_toc('raw.md', 'final.md')
 except FileNotFoundError:
-    print("Could not find sample.md")
+    print("Could not find raw.md")
