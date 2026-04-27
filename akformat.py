@@ -30,24 +30,18 @@ def process_arknights_kindle_toc(input_file, output_md_file):
 
     def flush_buffer():
         nonlocal current_speaker, dialogue_buffer
-        if current_speaker:
-            # === KINDLE-SAFE TABLE STRUCTURE ===
-            output_lines.append('\n<table class="speech-table">\n')
-            output_lines.append('  <tr>\n')
 
-        # Col 1: Name (No wrapping on Kindle)
-        output_lines.append(f'    <td class="td-name" valign="top">{current_speaker}</td>\n')
-
-        # Col 2: Text
-        output_lines.append('    <td class="td-text" valign="top">\n')
-        for text in dialogue_buffer:
-            output_lines.append(f'      <p>{text}</p>\n')
-            output_lines.append('    </td>\n')
-            output_lines.append('  </tr>\n')
-            output_lines.append('</table>\n')
-
+        if not current_speaker or not dialogue_buffer:
             current_speaker = None
             dialogue_buffer = []
+            return
+
+        output_lines.append(f"\n**{current_speaker}：**\n\n")
+        for text in dialogue_buffer:
+            output_lines.append(f"　{text}\n\n")
+
+        current_speaker = None
+        dialogue_buffer = []
 
     for line in lines:
         stripped = line.strip()
