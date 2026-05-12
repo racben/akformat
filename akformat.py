@@ -1,25 +1,25 @@
 import re
 
 def process_arknights_kindle_toc(input_file, output_md_file):
-    
+
     # --- 1. Read Input ---
     with open(input_file, 'r', encoding='utf-8') as f:
         lines = f.readlines()
 
     output_lines = []
-    
+
     # --- 2. Add Metadata for Pandoc ---
     output_lines.append("---\n")
     output_lines.append("title: Arknights Story\n")
     output_lines.append("author: Arknights\n")
-    
+
     # === FIX IS HERE: Changed 'zh' to 'zh-CN' ===
-    output_lines.append("lang: zh-CN\n") 
+    output_lines.append("lang: zh-CN\n")
     output_lines.append("---\n\n")
 
     current_speaker = None
     dialogue_buffer = []
-    
+
     # Regex 1: Dialogue ("Name: Content")
     dialogue_pattern = re.compile(r'^([^:：\r\n]{1,40})[：:](.*)')
 
@@ -45,7 +45,7 @@ def process_arknights_kindle_toc(input_file, output_md_file):
 
     for line in lines:
         stripped = line.strip()
-        
+
         if not stripped:
             continue
 
@@ -63,7 +63,7 @@ def process_arknights_kindle_toc(input_file, output_md_file):
                 flush_buffer()
                 current_speaker = name
                 dialogue_buffer.append(content)
-        
+
         else:
             # If not dialogue, flush any pending speech first
             flush_buffer()
@@ -72,11 +72,11 @@ def process_arknights_kindle_toc(input_file, output_md_file):
             # If line starts with "11-1 ", make it a Header 2 (##)
             if chapter_pattern.match(stripped):
                 output_lines.append(f"\n## {stripped}\n")
-            
+
             # If line already has a #, leave it alone
             elif stripped.startswith("#"):
                 output_lines.append(f"\n{stripped}\n")
-            
+
             # Otherwise, it's just narration/text
             else:
                 output_lines.append(f"\n{stripped}\n")
