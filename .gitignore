@@ -1,0 +1,3 @@
+*.epub
+# per-book working folders
+*/
