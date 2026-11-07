@@ -109,9 +109,11 @@ def format_markdown(lines, title, author, cover=None):
         nonlocal current_speaker, dialogue_buffer
 
         if current_speaker and dialogue_buffer:
-            output_lines.append(f"\n**{current_speaker}：**\n\n")
+            # <div class="speech"><div class="speaker">Name</div><div class="lines">...</div></div>
+            output_lines.append(f"\n:::: speech\n::: speaker\n{current_speaker}\n:::\n\n::: lines\n")
             for text in dialogue_buffer:
-                output_lines.append(f"　{text}\n\n")
+                output_lines.append(f"{text}\n\n")
+            output_lines.append(":::\n::::\n")
 
         current_speaker = None
         dialogue_buffer = []

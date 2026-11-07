@@ -18,6 +18,33 @@ div.description {
     margin: 1em 2em;
 }
 
+/* === DIALOGUE === */
+/* One block per speech: name label, then the lines with a bar down the left.
+   The name should differ from the text without being so loud the eye skips it. */
+div.speech {
+    margin: 1.2em 0;          /* gap between speakers / before narration */
+}
+
+div.speaker p {
+    margin: 0 0 0.2em 0;      /* name sits close to its lines */
+    text-indent: 0;
+    font-family: sans-serif;
+    font-size: 0.95em;
+    font-weight: bold;
+    color: #333333;
+}
+
+div.lines {
+    border-left: 0.15em solid #999999;
+    padding-left: 0.8em;
+    margin-left: 0.1em;
+}
+
+div.lines p {
+    margin: 0 0 0.4em 0;
+    text-indent: 0;
+}
+
 /* === IMAGES (backgrounds, character sprites, CGs) === */
 img {
     max-width: 100%;
